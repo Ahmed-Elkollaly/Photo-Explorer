@@ -7,6 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "Networking.h"
+#import "PhotoService.h"
+#import "ViewController.h"
+#import "PhotosViewModel.h"
+
 
 @interface AppDelegate ()
 
@@ -16,7 +21,26 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+    
+    //Create Networing
+    Networking *networking = [[Networking alloc] init];
+    
+    //Create Service
+    PhotoService *service = [[PhotoService alloc] initWithNetworking:networking];
+    
+    //Create View Model
+    PhotosViewModel *viewModel = [[PhotosViewModel alloc]initWithPhotoService:service];
+    
+    //Create View Controller
+    ViewController *vc = [[ViewController alloc] initWithPhotoViewModel:viewModel];
+    
+    self.window.rootViewController = vc;
+    //
+    [self.window makeKeyAndVisible];
+   
     return YES;
 }
 
